@@ -4,11 +4,30 @@
   
     
     <entry>
+      <title>设计模式初探（二），简单工厂模式</title>
+      <link href="/2019/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9D%E6%8E%A2%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
+      <url>/2019/03/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9D%E6%8E%A2%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%8C%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</url>
+      
+        <content type="html"><![CDATA[<p>&emsp;&emsp;在开始学习简单工厂模式之前，先要介绍下设计模式的由来，其实所谓的设计模式最早是出现在建筑设计领域。<br>&emsp;&emsp;大意为：经过验证的用于解决在特定环境下重复出现的特定问题的解决方案。<br>&emsp;&emsp;软件工程的设计模式最早是在GoF的书籍《设计模式：可复用面向对象软件的基础》中出现的，其中提及了23种经典的设计模式。<br>&emsp;&emsp;严格意义上简单工厂模式并不属于这23种设计模式之一，但是简单工厂是23种设计模式中工厂方法模式的简化版，把简单工厂当作入门例子最为合适，下面开始简单工厂的学习。</p><p>&emsp;&emsp;在学习面向对象编程的时候，大家都知道一个概念叫做面向抽象编程，而非具体实现。因为实际开发中编写好的程序是非常不稳定的，可能今天写好的功能，明天客户就会要求改动，所以在开发程序的时候都会定义抽象接口，这里体现的就是六大设计原则中的，依赖倒置原则（依赖抽象，而非依赖实现）。</p><p><strong>demo：</strong></p><pre name="code" class="java">public interface Api{&nbsp;&nbsp;&nbsp;&nbsp;void print(String str);}</pre><pre name="code" class="java">public class Impl implements Api{&nbsp;&nbsp;&nbsp;&nbsp;@Override&nbsp;&nbsp;&nbsp;&nbsp;public void print(String str){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("hello world:"+str);&nbsp;&nbsp;&nbsp;&nbsp;}}</pre><pre name="code" class="java">public class Client{&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Api api = new Impl();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api.print("good");&nbsp;&nbsp;&nbsp;&nbsp;}}</pre><p>大多数时候都是这样进行程序开发的，尤其是javaee程序员！<br>上面程序的问题是，并没有解决接口封装隔离，Client类不光需要知道Api接口类，还需要知道具体的实现类Impl，对于Client类来讲需要知道的内部细节太多了，使用简单工厂模式可以很好的解决上述问题！</p><pre name="code" class="java">public class Factory{&nbsp;&nbsp;&nbsp;&nbsp;public static Api createApi(){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Impl();&nbsp;&nbsp;&nbsp;&nbsp;}}</pre><pre name="code" class="java">public class Client{&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args){&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Api api = Factory.createApi();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api.print("good");&nbsp;&nbsp;&nbsp;&nbsp;}}</pre><p>使用了简单工厂，成功的将具体实现放入了Factory类中，Client只需要知道Api接口即可，不用再关心具体的实现类是谁，全部由工厂类来实现，很好的隐藏了内部细节，对Client类进行了解耦和。<br>使用简单工厂的优点是：很好的封装性，和解耦和，并且将对外创建类的职责进行了集中管理和控制。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 设计模式 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>设计模式初探（一），六大设计原则</title>
       <link href="/2019/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%8C%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"/>
       <url>/2019/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9D%E6%8E%A2%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%8C%E5%85%AD%E5%A4%A7%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/</url>
       
-        <content type="html"><![CDATA[<p><strong>1、单一职责原则</strong><br>高内聚、细粒度，单一类的职责尽量少</p><p><strong>2、里氏替换原则</strong><br>子类不应该重写父类方法</p><p><strong>3、迪米特原则（最少知道原则）</strong><br>一个类应该尽量少的知道外部类的方法和属性</p><p><strong>4、依赖倒置原则</strong><br>依赖抽象（接口），而非依赖实现</p><p><strong>5、接口隔离</strong><br>接口中的方法应该尽可能的少</p><p><strong>6、开闭原则</strong><br>对修改关闭，对扩展开放</p>]]></content>
+        <content type="html"><![CDATA[<p>在学习设计模式之前，应该先了解六大设计原则，用来指导程序的设计，设计模式就是设计原则的体现。</p><p><strong>1、单一职责原则</strong><br>高内聚、细粒度，单一类的职责尽量少</p><p><strong>2、里氏替换原则</strong><br>子类不应该重写父类方法</p><p><strong>3、迪米特原则（最少知道原则）</strong><br>一个类应该尽量少的知道外部类的方法和属性</p><p><strong>4、依赖倒置原则</strong><br>依赖抽象（接口），而非依赖实现</p><p><strong>5、接口隔离</strong><br>接口中的方法应该尽可能的少</p><p><strong>6、开闭原则</strong><br>对修改关闭，对扩展开放</p>]]></content>
       
       
       

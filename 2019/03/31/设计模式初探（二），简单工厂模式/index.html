@@ -11,15 +11,15 @@
   <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
   
   
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="设计模式," />
   
 
   
-    <meta name="description" content="殷先生的博客,null" />
+    <meta name="description" content="设计模式初探（二），简单工厂模式" />
   
   
   <link rel="icon" type="image/x-icon" href="/logo.png">
-  <title>archives: 3/2019: 2019 [ 殷先生的博客 ]</title>
+  <title>设计模式初探（二），简单工厂模式 [ 殷先生的博客 ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -46,7 +46,7 @@
           
       
           
-            <li class="pure-menu-item actived"><a href="/archives" class="pure-menu-link">归档</a></li>
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
           
       
           
@@ -64,58 +64,115 @@
 
   <div class="container" id="content-outer">
     <div class="inner" id="content-inner">
-      
-
-  
-  
-    
-    
-    <section class="post page archives">
-      <h3 class="archive-year-wrap">
-        <a href="/archives/2019" class="archive-year">
-          2019
-        </a>
-      </h3>
-      <div class="archives">
-  
-  <div class="archive" >
-  <a class="post-go" href="/2019/03/31/设计模式初探（二），简单工厂模式/">
-    <div>
-      <span class="date">
-        03-31
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        设计模式初探（二），简单工厂模式
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2019-03-31T01:56:45.000Z">
+        2019-03-31
+      </time>
+        
       </span>
       <span class="slash">/</span>
-      设计模式初探（二），简单工厂模式
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+    </header>
+
+    <div class="post-content">
+      <p>&emsp;&emsp;在开始学习简单工厂模式之前，先要介绍下设计模式的由来，其实所谓的设计模式最早是出现在建筑设计领域。<br>&emsp;&emsp;大意为：经过验证的用于解决在特定环境下重复出现的特定问题的解决方案。<br>&emsp;&emsp;软件工程的设计模式最早是在GoF的书籍《设计模式：可复用面向对象软件的基础》中出现的，其中提及了23种经典的设计模式。<br>&emsp;&emsp;严格意义上简单工厂模式并不属于这23种设计模式之一，但是简单工厂是23种设计模式中工厂方法模式的简化版，把简单工厂当作入门例子最为合适，下面开始简单工厂的学习。</p>
+<p>&emsp;&emsp;在学习面向对象编程的时候，大家都知道一个概念叫做面向抽象编程，而非具体实现。因为实际开发中编写好的程序是非常不稳定的，可能今天写好的功能，明天客户就会要求改动，所以在开发程序的时候都会定义抽象接口，这里体现的就是六大设计原则中的，依赖倒置原则（依赖抽象，而非依赖实现）。</p>
+<p><strong>demo：</strong></p>
+<pre name="code" class="java">
+public interface Api{
+&nbsp;&nbsp;&nbsp;&nbsp;void print(String str);
+}
+</pre>
+<pre name="code" class="java">
+public class Impl implements Api{
+&nbsp;&nbsp;&nbsp;&nbsp;@Override
+&nbsp;&nbsp;&nbsp;&nbsp;public void print(String str){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("hello world:"+str);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+<pre name="code" class="java">
+public class Client{
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Api api = new Impl();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api.print("good");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+
+<p>大多数时候都是这样进行程序开发的，尤其是javaee程序员！<br>上面程序的问题是，并没有解决接口封装隔离，Client类不光需要知道Api接口类，还需要知道具体的实现类Impl，对于Client类来讲需要知道的内部细节太多了，使用简单工厂模式可以很好的解决上述问题！</p>
+<pre name="code" class="java">
+public class Factory{
+&nbsp;&nbsp;&nbsp;&nbsp;public static Api createApi(){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Impl();
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+<pre name="code" class="java">
+public class Client{
+&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Api api = Factory.createApi();
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api.print("good");
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</pre>
+
+<p>使用了简单工厂，成功的将具体实现放入了Factory类中，Client只需要知道Api接口即可，不用再关心具体的实现类是谁，全部由工厂类来实现，很好的隐藏了内部细节，对Client类进行了解耦和。<br>使用简单工厂的优点是：很好的封装性，和解耦和，并且将对外创建类的职责进行了集中管理和控制。</p>
+
     </div>
 
-    <!--<div class="excerpt">-->
-      <!---->
-    <!--</div>-->
-  </a>
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
 
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+<div class="share" style="width: 100%;">
+  <img src="https://yinyichao.github.io/images/qrcode_for_gh_209463bd7a38_344.jpg" alt="Running Geek" style="margin: auto; display: block;"/>
+
+  <div style="margin: auto; text-align: center; font-size: 0.8em; color: grey;">老铁们关注走一走，不迷路</div>
+  
 </div>
 
   
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2019/03/11/设计模式初探（一），六大设计原则/" rel="next" title="设计模式初探（一），六大设计原则">
+          设计模式初探（一），六大设计原则
+          </a>
+        
+      </div>
   
-  <div class="archive" >
-  <a class="post-go" href="/2019/03/11/设计模式初探（一），六大设计原则/">
-    <div>
-      <span class="date">
-        03-11
-      </span>
-      <span class="slash">/</span>
-      设计模式初探（一），六大设计原则
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
     </div>
+  
 
-    <!--<div class="excerpt">-->
-      <!---->
-    <!--</div>-->
-  </a>
-
-</div>
-
-
-  </div></section>
 
     </div>
 
