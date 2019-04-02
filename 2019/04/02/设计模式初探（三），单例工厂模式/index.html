@@ -15,11 +15,11 @@
   
 
   
-    <meta name="description" content="设计模式初探（二），简单工厂模式" />
+    <meta name="description" content="设计模式初探（三），单例工厂模式" />
   
   
   <link rel="icon" type="image/x-icon" href="/logo.png">
-  <title>设计模式初探（二），简单工厂模式 [ 殷先生的博客 ]</title>
+  <title>设计模式初探（三），单例工厂模式 [ 殷先生的博客 ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -68,12 +68,12 @@
   <article class="post" id="post">
     <header class="post-header text-center">
       <h1 class="title">
-        设计模式初探（二），简单工厂模式
+        设计模式初探（三），单例工厂模式
       </h1>
       <span>
         
-        <time class="time" datetime="2019-03-31T01:56:45.000Z">
-        2019-03-31
+        <time class="time" datetime="2019-04-02T09:55:24.000Z">
+        2019-04-02
       </time>
         
       </span>
@@ -91,49 +91,15 @@
     </header>
 
     <div class="post-content">
-      <p>&emsp;&emsp;在开始学习简单工厂模式之前，先要介绍下设计模式的由来，其实所谓的设计模式最早是出现在建筑设计领域。<br>&emsp;&emsp;大意为：经过验证的用于解决在特定环境下重复出现的特定问题的解决方案。<br>&emsp;&emsp;软件工程的设计模式最早是在GoF的书籍《设计模式：可复用面向对象软件的基础》中出现的，其中提及了23种经典的设计模式。<br>&emsp;&emsp;严格意义上简单工厂模式并不属于这23种设计模式之一，但是简单工厂是23种设计模式中工厂方法模式的简化版，把简单工厂当作入门例子最为合适，下面开始简单工厂的学习。</p>
-<p>&emsp;&emsp;在学习面向对象编程的时候，大家都知道一个概念叫做面向抽象编程，而非具体实现。因为实际开发中编写好的程序是非常不稳定的，可能今天写好的功能，明天客户就会要求改动，所以在开发程序的时候都会定义抽象接口，这里体现的就是六大设计原则中的，依赖倒置原则（依赖抽象，而非依赖实现）。</p>
-<p><strong>demo：</strong></p>
-<pre name="code" class="java">
-public interface Api{
-&nbsp;&nbsp;&nbsp;&nbsp;void print(String str);
-}
-</pre>
-<pre name="code" class="java">
-public class Impl implements Api{
-&nbsp;&nbsp;&nbsp;&nbsp;@Override
-&nbsp;&nbsp;&nbsp;&nbsp;public void print(String str){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("hello world:"+str);
-&nbsp;&nbsp;&nbsp;&nbsp;}
-}
-</pre>
-<pre name="code" class="java">
-public class Client{
-&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Api api = new Impl();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api.print("good");
-&nbsp;&nbsp;&nbsp;&nbsp;}
-}
-</pre>
-
-<p>大多数时候都是这样进行程序开发的，尤其是javaee程序员！<br>上面程序的问题是，并没有解决接口封装隔离，Client类不光需要知道Api接口类，还需要知道具体的实现类Impl，对于Client类来讲需要知道的内部细节太多了，使用简单工厂模式可以很好的解决上述问题！</p>
-<pre name="code" class="java">
-public class Factory{
-&nbsp;&nbsp;&nbsp;&nbsp;public static Api createApi(){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Impl();
-&nbsp;&nbsp;&nbsp;&nbsp;}
-}
-</pre>
-<pre name="code" class="java">
-public class Client{
-&nbsp;&nbsp;&nbsp;&nbsp;public static void main(String[] args){
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Api api = Factory.createApi();
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;api.print("good");
-&nbsp;&nbsp;&nbsp;&nbsp;}
-}
-</pre>
-
-<p>使用了简单工厂，成功的将具体实现放入了Factory类中，Client只需要知道Api接口即可，不用再关心具体的实现类是谁，全部由工厂类来实现，很好的隐藏了内部细节，对Client类进行了解耦和。<br>使用简单工厂的优点是：很好的封装性，和解耦和，并且将对外创建类的职责进行了集中管理和控制。</p>
+      <p>&emsp;&emsp;今天正式开始标准的23种设计模式的讲解，将设计模式按照功能划分，<br>大体可以分为如下三种：<br>&emsp;&emsp;1、创建型设计模式<br>&emsp;&emsp;2、结构型设计模式<br>&emsp;&emsp;3、行为型设计模式<br>&emsp;&emsp;单例工厂设计模式是创建型设计模式，负责对象的创建,单例顾名思义，是指只能创建一个对象，在java中创建对象一般使用new关键字，例如：</p>
+<p><pre name="code" class="java"><br>&nbsp;&nbsp;Student student = new Student();<br></pre><br>那么如何控制一个类只能创建一个对象呢？那么首先就需要将类的构造器私有化，让外部类无法创建对象，这样就控制了类的创建</p>
+<p><pre name="code" class="java"><br>public class Student{<br>&nbsp;&nbsp;&nbsp;&nbsp;private Student(){<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></pre><br>但是还需要提供一个对象给外部类使用</p>
+<p><pre name="code" class="java"><br>public class Student{<br>&nbsp;&nbsp;&nbsp;&nbsp;private static Student student = new Student();<br>&nbsp;&nbsp;&nbsp;&nbsp;private Student(){<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;public static Student getInstance(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return student;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></pre><br>至此我们就实现了单例模式<br>下面介绍几款单例模式的经典实现：<br><br><b>饿汉：</b><br><br>顾名思义，就是不管需不需要我都先创建对象，然后直接调用就行</p>
+<p><pre name="code" class="java"><br>public class Student{<br>&nbsp;&nbsp;&nbsp;&nbsp;private static Student student = new Student();<br>&nbsp;&nbsp;&nbsp;&nbsp;private Student(){<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;public static Student getInstance(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return student;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></pre><br><b>懒汉 1 线程不安全:</b><br><br>就是等到真正需要用到的时候，再创建对象</p>
+<p><pre name="code" class="java"><br>public class Student{<br>&nbsp;&nbsp;&nbsp;&nbsp;private static Student student = null;<br>&nbsp;&nbsp;&nbsp;&nbsp;private Student(){<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;public static Student getInstance(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(student==null){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student = new Student();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return student;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></pre><br><b>懒汉 2 线程安全:</b><br><br>懒汉1没有做线程保护，在多线程环境中并不安全，懒汉2加入了线程保护</p>
+<p><pre name="code" class="java"><br>public class Student{<br>&nbsp;&nbsp;&nbsp;&nbsp;private static Student student = null;<br>&nbsp;&nbsp;&nbsp;&nbsp;private Student(){<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;public synchronized static Student getInstance(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(student==null){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student = new Student();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return student;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></pre><br><b>懒汉 3 双重检查加锁:</b><br><br>懒汉2的加锁方式对性能的损耗过大，双加锁的方式极大的改善了此问题</p>
+<p><pre name="code" class="java"><br>public class Student{<br>&nbsp;&nbsp;&nbsp;&nbsp;private volatile static Student student = null;<br>&nbsp;&nbsp;&nbsp;&nbsp;private Student(){<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;public static Student getInstance(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(student==null){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;synchronized(Student.class){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(student==null){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;student = new Student();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return student;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></pre><br><b>静态内部类:</b><br><br>因为jvm提供了静态属性的线程安全，所以可以使用静态内部类来实现，线程安全性能高的饿汉模式</p>
+<p><pre name="code" class="java"><br>public class Student{<br>&nbsp;&nbsp;&nbsp;&nbsp;private Student(){<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;public static Student getInstance(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return StudentHolder.instance;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;public static Class StudentHolder(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;private static Student instance = new Student();<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></pre><br>但是值得一提的是，所谓单例也是针对单jvm下的单类加载器，在多个类加载器中肯定都能存在一个单例模式的对象！</p>
 
     </div>
 
@@ -161,19 +127,14 @@ public class Client{
       <div class="post-nav-item post-nav-next">
         
           <span>〈 </span>
-          <a href="/2019/03/11/设计模式初探（一），六大设计原则/" rel="next" title="设计模式初探（一），六大设计原则">
-          设计模式初探（一），六大设计原则
+          <a href="/2019/03/31/设计模式初探（二），简单工厂模式/" rel="next" title="设计模式初探（二），简单工厂模式">
+          设计模式初探（二），简单工厂模式
           </a>
         
       </div>
   
       <div class="post-nav-item post-nav-prev">
           
-          <a href="/2019/04/02/设计模式初探（三），单例工厂模式/" rel="prev" title="设计模式初探（三），单例工厂模式">
-            设计模式初探（三），单例工厂模式
-          </a>
-          <span>〉</span>
-        
       </div>
     </div>
   
