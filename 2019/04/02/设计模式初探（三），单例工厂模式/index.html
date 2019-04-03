@@ -91,7 +91,7 @@
     </header>
 
     <div class="post-content">
-      <p>&emsp;&emsp;今天正式开始标准的23种设计模式的讲解，将设计模式按照功能划分，<br>大体可以分为如下三种：<br>&emsp;&emsp;1、创建型设计模式<br>&emsp;&emsp;2、结构型设计模式<br>&emsp;&emsp;3、行为型设计模式<br>&emsp;&emsp;单例工厂设计模式是创建型设计模式，负责对象的创建,单例顾名思义，是指只能创建一个对象，在java中创建对象一般使用new关键字，例如：</p>
+      <p>&emsp;&emsp;今天正式开始标准的23种设计模式的讲解，将设计模式按照功能划分，大体可以分为如下三种：<br>&emsp;&emsp;&emsp;&emsp;1、创建型设计模式<br>&emsp;&emsp;&emsp;&emsp;2、结构型设计模式<br>&emsp;&emsp;&emsp;&emsp;3、行为型设计模式<br>&emsp;&emsp;单例工厂设计模式是创建型设计模式，负责对象的创建,单例顾名思义，是指只能创建一个对象，适用于配置文件读取、工具类等，只需要在系统中存在一份对象供全局使用即可，在java中创建对象一般使用new关键字，例如：</p>
 <p><pre name="code" class="java"><br>&nbsp;&nbsp;Student student = new Student();<br></pre><br>那么如何控制一个类只能创建一个对象呢？那么首先就需要将类的构造器私有化，让外部类无法创建对象，这样就控制了类的创建</p>
 <p><pre name="code" class="java"><br>public class Student{<br>&nbsp;&nbsp;&nbsp;&nbsp;private Student(){<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></pre><br>但是还需要提供一个对象给外部类使用</p>
 <p><pre name="code" class="java"><br>public class Student{<br>&nbsp;&nbsp;&nbsp;&nbsp;private static Student student = new Student();<br>&nbsp;&nbsp;&nbsp;&nbsp;private Student(){<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;public static Student getInstance(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return student;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}<br></pre><br>至此我们就实现了单例模式<br>下面介绍几款单例模式的经典实现：<br><br><b>饿汉：</b><br><br>顾名思义，就是不管需不需要我都先创建对象，然后直接调用就行</p>
@@ -135,6 +135,11 @@
   
       <div class="post-nav-item post-nav-prev">
           
+          <a href="/2019/04/03/设计模式初探（四），工厂方法模式/" rel="prev" title="设计模式初探（四），工厂方法模式">
+            设计模式初探（四），工厂方法模式
+          </a>
+          <span>〉</span>
+        
       </div>
     </div>
   
